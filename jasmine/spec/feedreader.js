@@ -61,7 +61,7 @@ $(function() {
          */
         it('menu element hidden by default', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
-        })
+        });
          /* TODO: Write a test that ensures the menu changes
           * visibility when the menu icon is clicked. This test
           * should have two expectations: does the menu display when
@@ -75,7 +75,14 @@ $(function() {
         });
     });
     /* TODO: Write a new test suite named "Initial Entries" */
+    describe('Initial Entries', function() {
 
+        it('loadfeed completes its work', function() {
+            beforeEach(function(done) {
+                loadFeed(0, done);
+            });
+            expect($('.feed').length).not.toBe(0);
+        });
         /* TODO: Write a test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
@@ -89,4 +96,5 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+    });
 }());
