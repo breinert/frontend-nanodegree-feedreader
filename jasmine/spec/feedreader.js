@@ -31,12 +31,12 @@ $(function() {
     });
     //second test suite
     describe('The menu', function() {
-     
+
         //ensure that the menu is hidden by default
         it('menu element hidden by default', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
-   
+
         //ensure that the menu changes visability on click, and then back on second click
         it('menu changes visibility', function() {
             $('.menu-icon-link').click();
@@ -49,23 +49,30 @@ $(function() {
     describe('Initial Entries', function() {
 
         //ensure that there is an entry in the RSS feed after the page is loaded
+        beforeEach(function(done) {
+            loadFeed(0, done);
+            done;
+        });
         it('loadfeed completes its work', function() {
-            beforeEach(function(done) {
-                loadFeed(0, done);
-            });
-            expect($('.feed').length).not.toBe(0);
+            expect($('.feed .entry').length).not.toBe(0);
         });
     });
     //fourth test suite
     describe('New Feed Selection', function() {
+        let newFeed =[];
 
         //ensure that the RSS feed changes on a new feed load
-        it('content changes on new feed load', function() {
-            const currentFeed = $('.feed');
-            beforeEach(function(done) {
-                loadFeed(0, done);
+        beforeEach(function() {
+            loadFeed(0, function(done) {
+                newFeed.push($('.feed').html());
+                loadFeed(1, done);
+                done;
             });
-            expect($('.feed')).not.toBe(currentFeed);
+            newFeed.push($('.feed').html());
+            console.log(newFeed);
+        });
+        it('content changes on new feed load', function() {
+            expect(newFeed[0]).not.toBe(newFeed[1]);
         });
     });
 }());
